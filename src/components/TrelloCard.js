@@ -1,15 +1,24 @@
 import React from "react";
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
 
-const TrelloCard = () =>{
+const TrelloCard = ({text}) => {
     return (
-        <Card sx={{ minWidth: 275 }}>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Word of the Day
-            </Typography>
+        <Card style={styles.cardContainer}>
+            <CardContent>
+                <Typography color="text.secondary" gutterBottom>
+                    {text}
+                </Typography>
+            </CardContent>
         </Card>
     )
 };
+
+const styles = {
+    cardContainer: {
+        marginBottom:8
+    }
+}
 
 export default TrelloCard;
