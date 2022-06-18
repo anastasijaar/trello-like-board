@@ -3,12 +3,15 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 
-const TrelloCard = ({text}) => {
+const TrelloCard = ({card}) => {
     return (
         <Card style={styles.cardContainer}>
             <CardContent>
+                <Typography variant="h4" gutterBottom>
+                    {card.title}
+                </Typography>
                 <Typography color="text.secondary" gutterBottom>
-                    {text}
+                    {card.text}
                 </Typography>
             </CardContent>
         </Card>
