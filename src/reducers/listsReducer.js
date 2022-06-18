@@ -1,54 +1,62 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ACTION_TYPES } from '../actions';
-
-let listID = 2;
+import { addCard } from '../utils';
 
 const initialState = [
     {
-        title: "Example of list",
-        id: 0,
+        id: `list-${uuidv4()}`,
+        title: "TO DO",
         cards: [
             {
-                id: 0,
+                id: `card-${uuidv4()}`,
+                title: "Example0",
                 text: "static list and a static card1"
             },
             {
-                id: 1,
+                id: `card-${uuidv4()}`,
+                title: "Example1",
                 text: "static list and a static card2"
             }
         ]
     },
     {
-        title: "Example of list2",
-        id: 1,
+        id: `list-${uuidv4()}`,
+        title: "IN PROGRESS",
         cards: [
             {
-                id: 0,
+                id: `card-${uuidv4()}`,
+                title: "Example2",
                 text: "static list and a static card3"
             },
             {
-                id: 1,
+                id: `card-${uuidv4()}`,
+                title: "Example3",
                 text: "static list and a static card4"
             },
             {
-                id: 2,
+                id: `card-${uuidv4()}`,
+                title: "Example4",
                 text: "static list and a static card5"
             }
         ]
     },
     {
-        title: "Example of list2",
-        id: 2,
+        id: `card-${uuidv4()}`,
+        title: "DONE",
         cards: [
             {
-                id: 0,
+                id: `card-${uuidv4()}`,
+                title: "Example5",
                 text: "static list and a static card3"
             },
             {
-                id: 1,
+                id: `card-${uuidv4()}`,
+                title: "Example6",
                 text: "static list and a static card4"
             },
             {
-                id: 2,
+                id: `card-${uuidv4()}`,
+                title: "Example7",
                 text: "static list and a static card5"
             }
         ]
@@ -57,16 +65,9 @@ const initialState = [
 
 const listsReducer = (state= initialState, action) => {
     switch (action.type){
-        case ACTION_TYPES.ADD_LIST:
-            const newList = {
-                title: action.payload,
-                cards: [],
-                id: listID
-            }
-            listID += 1
-            return [...state, newList];
-        default:
-            return state;
+        case ACTION_TYPES.ADD_CARD: {
+            return addCard(state, action.payload);
+        }
     }
 };
 

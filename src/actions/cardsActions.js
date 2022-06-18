@@ -6,3 +6,10 @@ export const addCard = (listID, title, text) => {
         payload: { listID, title, text }
     };
 };
+
+export const updateCard = (listID, cardID, title, text) => {
+    return {
+        type: ACTION_TYPES.UPDATE_CARD,
+        payload: { listID, cardID, title, text }
+    };
+};

@@ -17,7 +17,8 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import {
     ACTION_TYPES,
-    addCard
+    addCard,
+    updateCard
 } from '../actions';
 
 const useStyles = makeStyles({
@@ -66,6 +67,12 @@ const TrelloModal = (props) => {
             addCard(listID, title, text);
             handleCloseModal();
         }
+    };
+
+    const handleUpdateCard = () => {
+        const { listID, cardID, updateCard } = props;
+        updateCard(listID, cardID, title, text);
+        handleCloseModal();
     };
 
     return (
@@ -127,6 +134,7 @@ const TrelloModal = (props) => {
                         </Button>
 
                         <Button
+                            onClick={type === ACTION_TYPES.UPDATE_CARD ? handleUpdateCard : handleAddCard}
                             variant="text"
                             color="primary"
                             startIcon={<SaveIcon/>}
@@ -141,7 +149,8 @@ const TrelloModal = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    addCard: (listID, title, text) => dispatch(addCard(listID, title, text))
+    addCard: (listID, title, text) => dispatch(addCard(listID, title, text)),
+    updateCard: (listID, cardID, title, text) => dispatch(updateCard(listID, cardID, title, text))
 });
 
 export default connect(null, mapDispatchToProps)(TrelloModal);

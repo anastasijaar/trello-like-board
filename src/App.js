@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import './App.css';
 
 function App({lists}) {
+    console.log({lists})
     return (
         <div className="App">
             <h2>Hello Trello-like board</h2>
