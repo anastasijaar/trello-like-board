@@ -2,7 +2,11 @@ import React from "react";
 import TrelloCard from "./TrelloCard";
 import TrelloActionButton from "./TrelloActionButton";
 
-const TrelloList = ({title, cards}) => {
+
+const TrelloList = (props) => {
+
+    const { listID, title, cards } = props;
+
     return(
         <div style={styles.container}>
             <h4>{title}</h4>
