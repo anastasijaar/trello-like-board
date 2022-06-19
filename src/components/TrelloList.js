@@ -3,7 +3,6 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import TrelloCard from "./TrelloCard";
-import TrelloActionButton from "./TrelloActionButton";
 
 import { Droppable } from 'react-beautiful-dnd';
 
@@ -13,7 +12,6 @@ const useStyles = makeStyles({
         backgroundColor: '#ebecf0',
         borderRadius: 3,
         padding: 8,
-        margin: 16,
         flex: '0 0 300px',
     },
     container: {

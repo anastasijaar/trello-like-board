@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TrelloBoard from './containers/TrelloBoard';
+import TrelloBoard from './components/TrelloBoard';
 
 const App = () => {
     return (

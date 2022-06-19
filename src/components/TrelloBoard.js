@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
-import TrelloList from '../components/TrelloList';
+import TrelloList from './TrelloList';
 
 import { DragDropContext } from 'react-beautiful-dnd';
 import { sort } from '../actions';
 import Grid from '@material-ui/core/Grid';
-import TrelloActionButton from '../components/TrelloActionButton';
+import TrelloActionButton from './TrelloActionButton';
 
 const useStyles = makeStyles({
     container: {
@@ -22,6 +22,8 @@ const useStyles = makeStyles({
         alignItems: 'flex-start',
         overflowX: 'scroll',
         width: '100%',
+        gap: 10,
+        marginTop: 10,
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
         '&::-webkit-scrollbar': {
