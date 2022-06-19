@@ -57,6 +57,7 @@ export const addCard = (state, payload) => {
     };
 
     console.log({ newCard });
+    console.log({listID});
     return {
         lastCardId: newCardId,
         lists: state.lists.map(list => {

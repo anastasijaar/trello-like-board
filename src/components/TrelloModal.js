@@ -124,7 +124,7 @@ const TrelloModal = (props) => {
                     error={text === ''}
                     label="Text"
                     variant="outlined"
-                    rowsMax={10}
+                    maxRows={10}
                     multiline
                     fullWidth/>
 
@@ -160,7 +160,7 @@ const TrelloModal = (props) => {
 
                 <Grid
                     container
-                    justify="space-between"
+                    justifyContent="space-between"
                     alignItems="center"
                     className={classes.grid}>
                     <Button
