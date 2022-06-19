@@ -18,7 +18,7 @@ const TrelloList = (props) => {
                     listID={listID}
                     index={index}/>
                 ))}
-                <TrelloActionButton listID={listID}/>
+                {/*<TrelloActionButton listID={listID}/>*/}
         </div>
     );
 };

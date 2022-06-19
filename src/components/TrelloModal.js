@@ -7,7 +7,7 @@ import {
     Modal,
     Grid,
     TextField,
-    IconButton
+    IconButton, InputLabel, Select, MenuItem, FormControl,
 } from '@material-ui/core';
 
 import SaveIcon from '@material-ui/icons/Save';
@@ -18,7 +18,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import {
     ACTION_TYPES,
     addCard,
-    updateCard
+    updateCard,
+    deleteCard
 } from '../actions';
 
 const useStyles = makeStyles({
@@ -49,22 +50,28 @@ const useStyles = makeStyles({
 
 const TrelloModal = (props) => {
     const classes = useStyles();
-    const { open, setOpen, cardTitle, cardText, type } = props;
+    const { open, setOpen, card, type, listID } = props;
+    const cardTitle = card.title;
+    const cardText = card.text;
+    const cardStatus = card.status;
+    const user = card.assignedUser;
 
-    const [title, setTitle] = useState(cardTitle ? cardTitle : '');
-    const [text, setText] = useState(cardText ? cardText : '');
+    const [title, setTitle] = useState(cardTitle ?? '');
+    const [text, setText] = useState(cardText ?? '');
+    const [status, setStatus] = useState(cardStatus ?? '');
+    const [assignedUser, setAssignedUser] = useState(user ?? '');
 
     const handleCloseModal = () => {
         setOpen(false);
     };
 
     const handleAddCard = () => {
-        const { listID, addCard } = props;
+        const { addCard } = props;
 
         if (title && text) {
             setTitle('');
             setText('');
-            addCard(listID, title, text);
+            addCard(listID, title, text, status, assignedUser);
             handleCloseModal();
         }
     };
@@ -73,6 +80,15 @@ const TrelloModal = (props) => {
         const { listID, cardID, updateCard } = props;
         updateCard(listID, cardID, title, text);
         handleCloseModal();
+    };
+
+    const handleDeleteCard = () => {
+        const { deleteCard } = props;
+        deleteCard(listID, card.id);
+    };
+
+    const handleSelectStatus = (event) => {
+        setStatus(event.target.value);
     };
 
     return (
@@ -112,12 +128,43 @@ const TrelloModal = (props) => {
                     multiline
                     fullWidth/>
 
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Select status</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={status}
+                        label="Status"
+                        onChange={handleSelectStatus}
+                    >
+                        <MenuItem value="Todo">Todo</MenuItem>
+                        <MenuItem value="In Progress">In Progress</MenuItem>
+                        <MenuItem value="Done">Done</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <FormControl fullWidth>
+                    <InputLabel id="user-select-label">Select user</InputLabel>
+                    <Select
+                        labelId="user-select-label"
+                        id="user-select-label"
+                        value={assignedUser}
+                        label="Assigned User"
+                        onChange={(event) => setAssignedUser(event.target.value)}
+                    >
+                        <MenuItem value="JD">JD</MenuItem>
+                        <MenuItem value="AJ">AJ</MenuItem>
+                        <MenuItem value="SS">SS</MenuItem>
+                    </Select>
+                </FormControl>
+
                 <Grid
                     container
                     justify="space-between"
                     alignItems="center"
                     className={classes.grid}>
                     <Button
+                        onClick={handleDeleteCard}
                         variant="text"
                         color="secondary"
                         startIcon={<DeleteIcon/>}
@@ -138,7 +185,7 @@ const TrelloModal = (props) => {
                             variant="text"
                             color="primary"
                             startIcon={<SaveIcon/>}
-                            disabled={title === '' || text === ''}>
+                            disabled={title === '' || text === '' || status === '' || assignedUser === ''}>
                             Save
                         </Button>
                     </Grid>
@@ -148,9 +195,10 @@ const TrelloModal = (props) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    addCard: (listID, title, text) => dispatch(addCard(listID, title, text)),
-    updateCard: (listID, cardID, title, text) => dispatch(updateCard(listID, cardID, title, text))
-});
+const mapDispatchToProps = {
+    addCard,
+    updateCard,
+    deleteCard
+};
 
 export default connect(null, mapDispatchToProps)(TrelloModal);

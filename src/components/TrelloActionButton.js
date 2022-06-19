@@ -9,9 +9,8 @@ import TrelloModal from './TrelloModal';
 
 const TrelloActionButton = (props) => {
 
-    const { listID, cardsLength } = props;
+    const { listID } = props;
     const [open, setOpen] = useState(false);
-    const buttonText = cardsLength > 0 ? 'Add another card' : 'Add a card';
 
 
     const handleOpenModal = () => {
@@ -22,14 +21,16 @@ const TrelloActionButton = (props) => {
         <Grid item>
             <Button
                 color="primary"
-                variant="text"
+                variant="contained"
                 startIcon={<AddIcon/>}
-                onMouseDown={handleOpenModal}>
-                {buttonText}
+                onMouseDown={handleOpenModal}
+            >
+                Create Issue
             </Button>
 
             <TrelloModal
                 listID={listID}
+                card={{}}
                 open={open}
                 setOpen={setOpen}
                 type={ACTION_TYPES.ADD_CARD}

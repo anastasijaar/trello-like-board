@@ -1,23 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import TrelloList from './components/TrelloList';
+import TrelloBoard from './containers/TrelloBoard';
 
-import './App.css';
-
-function App() {
-    const lists = useSelector(state => state.board.lists);
-
+const App = () => {
     return (
-        <div className="App">
-            <h2 className="App__Title">Hello Trello-like board</h2>
-            <div className="ListContainer">
-                {lists.map(list => (
-                    <TrelloList key={list.id} title={list.title} cards={list.cards} />
-                ))}
-            </div>
-        </div>
+        <TrelloBoard/>
     );
-}
+};
 
 export default App;
