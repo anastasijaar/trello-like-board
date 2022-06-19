@@ -100,6 +100,51 @@ export const updateCard = (state, payload) => {
     };
 };
 
+export const dragCard = (state, payload) => {
+    const { lists: stateLists } = state;
+    const lists = [...stateLists];
+    const { droppableIdStart, droppableIdEnd } = payload;
+
+    if (droppableIdStart === droppableIdEnd) {
+        dragInsideSameList(lists, payload);
+    } else {
+        dragBetweenLists(lists, payload);
+    }
+
+    return {
+        ...state,
+        lists,
+    };
+};
+
+const dragInsideSameList = (lists, payload) => {
+    const {
+        droppableIdStart,
+        droppableIndexStart,
+        droppableIndexEnd
+    } = payload;
+
+    const list = lists.find(list => droppableIdStart === list.id);
+    const card = list.cards.splice(droppableIndexStart, 1);
+    list.cards.splice(droppableIndexEnd, 0, ...card);
+};
+
+const dragBetweenLists = (lists, payload) => {
+    const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd
+    } = payload;
+
+    const listStart = lists.find(list => droppableIdStart === list.id);
+    const card = listStart.cards.splice(droppableIndexStart, 1);
+    const listEnd = lists.find(list => droppableIdEnd === list.id);
+    // Always one?
+    card[0].status = listEnd.title;
+    listEnd.cards.splice(droppableIndexEnd, 0, ...card);
+};
+
 const listsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACTION_TYPES.ADD_CARD: {
@@ -110,6 +155,9 @@ const listsReducer = (state = initialState, action) => {
         }
         case ACTION_TYPES.UPDATE_CARD: {
             return updateCard(state, action.payload);
+        }
+        case ACTION_TYPES.DRAG_CARD: {
+            return dragCard(state, action.payload);
         }
         default:
             return state;
