@@ -6,12 +6,8 @@ import { ACTION_TYPES } from '../actions';
 
 import TrelloModal from './TrelloModal';
 
-
-const TrelloActionButton = (props) => {
-
-    const { listID } = props;
+const TrelloActionButton = ({ listID }) => {
     const [open, setOpen] = useState(false);
-
 
     const handleOpenModal = () => {
         setOpen(true);
@@ -22,7 +18,7 @@ const TrelloActionButton = (props) => {
             <Button
                 color="primary"
                 variant="contained"
-                startIcon={<AddIcon/>}
+                startIcon={<AddIcon />}
                 onMouseDown={handleOpenModal}
             >
                 Create Issue

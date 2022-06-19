@@ -14,9 +14,9 @@ export const deleteCard = (listID, cardID) => {
     };
 };
 
-export const updateCard = (listID, cardID, title, text, status, assignedUser) => {
+export const updateCard = (fromListId, toListId, cardID, title, text, status, assignedUser) => {
     return {
         type: ACTION_TYPES.UPDATE_CARD,
-        payload: { listID, cardID, title, text, status, assignedUser }
+        payload: { fromListId, toListId, cardID, title, text, status, assignedUser }
     };
 };

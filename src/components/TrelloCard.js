@@ -1,23 +1,51 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+
 import TrelloModal from './TrelloModal';
-import { ACTION_TYPES } from '../actions';
+import { ACTION_TYPES, deleteCard } from '../actions';
 
 import {
+    Button,
     Card,
+    CardActions,
     CardContent,
     Grid,
     Typography,
 } from '@material-ui/core';
 
-const TrelloCard = (props) => {
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-    const { listID, card, index, deleteCard } = props;
-    const classes = styles;
+const useStyles = makeStyles({
+    card: {
+        marginBottom: 8,
+        transition: 'all .4s',
+    },
+    title: {
+        fontWeight: 'bold',
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    }
+});
+
+const TrelloCard = (props) => {
+    const classes = useStyles();
+    const { listID, card } = props;
+
+    const dispatch = useDispatch();
+
     const [open, setOpen] = useState(false);
+
+    const handleDeleteCard = () => {
+        dispatch(deleteCard(listID, card.id));
+    };
 
     return (
         <Grid item>
-            <Card style={styles.cardContainer}>
+            <Card className={classes.card}>
                 <CardContent>
                     <Typography
                         className={classes.title}
@@ -49,6 +77,26 @@ const TrelloCard = (props) => {
                         gutterBottom>
                         {card.assignedUser}
                     </Typography>
+
+                    <CardActions className={classes.buttons}>
+                        <Button
+                            color="primary"
+                            size="small"
+                            startIcon={<EditIcon/>}
+                            onClick={() => setOpen(true)}
+                        >
+                            Edit
+                        </Button>
+
+                        <Button
+                            color="secondary"
+                            size="small"
+                            startIcon={<DeleteIcon/>}
+                            onClick={handleDeleteCard}
+                        >
+                            Delete
+                        </Button>
+                    </CardActions>
                 </CardContent>
             </Card>
 
@@ -59,14 +107,7 @@ const TrelloCard = (props) => {
                 setOpen={setOpen}
                 type={ACTION_TYPES.UPDATE_CARD}/>
         </Grid>
-
     )
 };
-
-const styles = {
-    cardContainer: {
-        marginBottom:8
-    }
-}
 
 export default TrelloCard;

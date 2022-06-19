@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         padding: '0 16px',
     },
     row: {
+        marginTop: 16,
         display: 'flex',
         alignItems: 'flex-start',
         overflowX: 'scroll',
@@ -43,7 +44,8 @@ const TrelloBoard = (props) => {
             <Typography
                 className={classes.title}
                 variant="h3"
-                component="h1">
+                component="h1"
+            >
                 Hello trello-like board
             </Typography>
 

@@ -21,6 +21,7 @@ import {
     updateCard,
     deleteCard
 } from '../actions';
+import { AssignedUsers, ListStatus } from '../constants';
 
 const useStyles = makeStyles({
     root: {
@@ -50,16 +51,18 @@ const useStyles = makeStyles({
 
 const TrelloModal = (props) => {
     const classes = useStyles();
-    const { open, setOpen, card, type, listID } = props;
+    const { open, setOpen, card, type, listID: fromListId } = props;
     const cardTitle = card.title;
     const cardText = card.text;
     const cardStatus = card.status;
     const user = card.assignedUser;
+    const cardID = card.id;
 
     const [title, setTitle] = useState(cardTitle ?? '');
     const [text, setText] = useState(cardText ?? '');
     const [status, setStatus] = useState(cardStatus ?? '');
     const [assignedUser, setAssignedUser] = useState(user ?? '');
+    const [toListId, setToListId] = useState(fromListId ?? '');
 
     const handleCloseModal = () => {
         setOpen(false);
@@ -69,26 +72,29 @@ const TrelloModal = (props) => {
         const { addCard } = props;
 
         if (title && text) {
+            addCard(toListId, title, text, status, assignedUser);
+            handleCloseModal();
             setTitle('');
             setText('');
-            addCard(listID, title, text, status, assignedUser);
-            handleCloseModal();
+            setStatus('');
+            setAssignedUser('');
         }
     };
 
     const handleUpdateCard = () => {
-        const { listID, cardID, updateCard } = props;
-        updateCard(listID, cardID, title, text);
+        const { updateCard } = props;
+        updateCard(fromListId, toListId, cardID, title, text, status, assignedUser);
         handleCloseModal();
     };
 
     const handleDeleteCard = () => {
         const { deleteCard } = props;
-        deleteCard(listID, card.id);
+        deleteCard(toListId, cardID);
     };
 
     const handleSelectStatus = (event) => {
         setStatus(event.target.value);
+        setToListId(event.target.value);
     };
 
     return (
@@ -137,9 +143,11 @@ const TrelloModal = (props) => {
                         label="Status"
                         onChange={handleSelectStatus}
                     >
-                        <MenuItem value="Todo">Todo</MenuItem>
-                        <MenuItem value="In Progress">In Progress</MenuItem>
-                        <MenuItem value="Done">Done</MenuItem>
+                        {Object.keys(ListStatus).map(key => (
+                            <MenuItem key={key} value={ListStatus[key]}>
+                                {ListStatus[key]}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -152,9 +160,11 @@ const TrelloModal = (props) => {
                         label="Assigned User"
                         onChange={(event) => setAssignedUser(event.target.value)}
                     >
-                        <MenuItem value="JD">JD</MenuItem>
-                        <MenuItem value="AJ">AJ</MenuItem>
-                        <MenuItem value="SS">SS</MenuItem>
+                        {Object.keys(AssignedUsers).map(key => (
+                            <MenuItem key={key} value={AssignedUsers[key]}>
+                                {AssignedUsers[key]}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
